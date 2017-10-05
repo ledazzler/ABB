@@ -5,9 +5,6 @@ disconnect_info ={}
 a = loglist[5]
 b = loglist[6]
 
-
-small_list = (a,b)
-
 #info_list = [log_date, log_time, instance, user, error_code,message_text,counter]
 counter = 0
 #log_date = b[1]
@@ -20,12 +17,14 @@ counter = 0
 
 for i in loglist:
   i = i.split('|')
+  
   if len(i) >= 10:
     i[7] = i[7].strip()
     if i[7] not in disconnect_info.keys():
       disconnect_info[i[7]] = {}
+      disconnect_info[i[7]]['log_time'] = []
       disconnect_info[i[7]]['log_date'] = i[1].strip()
-      disconnect_info[i[7]]['log_time'] = i[2].strip()
+      disconnect_info[i[7]]['log_time'].append (i[2])
       disconnect_info[i[7]]['instance'] = i[3].strip()
       disconnect_info[i[7]]['error_code'] = i[9].strip()
       disconnect_info[i[7]]['message_text'] = i[10].strip()
@@ -33,11 +32,10 @@ for i in loglist:
       #print 'finished parsing %s' %i[7]
       #print '********************'
     elif i[7] in disconnect_info.keys():
-      #print 'user already disconnected'
+    #print 'user already disconnected'
       disconnect_info[i[7]]['counter'] += 1
-
-
-
+      if type (disconnect_info[i[7]]['log_time']) == list:
+        disconnect_info[i[7]]['log_time'].append (i[2].strip())
 #print disconnect_info.keys()
 #for i in disconnect_info:
 
@@ -45,8 +43,6 @@ for i in loglist:
 
 for i in disconnect_info.keys():
   if disconnect_info[i]['counter'] >1:
-    print 'user %s' %i 
-    print '%d disconnects' %disconnect_info[i]['counter']
-    print '\n'
-  
-  #disconnect_info[i]['counter']
+    counter_str = disconnect_info[i]['counter']
+    print 'user %s has %d disconnects' % (i, counter_str)
+    print disconnect_info[i]['log_time']
