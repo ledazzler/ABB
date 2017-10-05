@@ -46,3 +46,5 @@ for i in disconnect_info.keys():
     counter_str = disconnect_info[i]['counter']
     print 'user %s has %d disconnects' % (i, counter_str)
     print disconnect_info[i]['log_time']
+
+#comment
